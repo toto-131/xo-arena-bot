@@ -1,0 +1,26 @@
+import telebot
+import os
+import time
+
+TOKEN = os.environ.get('BOT_TOKEN')
+bot = telebot.TeleBot(TOKEN)
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, "✅ XO Arena Bot работает 24/7! 🚀\n\n/play - начать игру")
+
+@bot.message_handler(commands=['play'])
+def play(message):
+    bot.reply_to(message, "🎮 Игра скоро будет!\nСейчас бот работает на Render!")
+
+@bot.message_handler(func=lambda m: True)
+def echo(message):
+    bot.reply_to(message, f"Ты написал: {message.text}")
+
+print("🤖 Бот запущен на Render!")
+while True:
+    try:
+        bot.polling(none_stop=True, interval=1, timeout=60)
+    except Exception as e:
+        print(f"⚠️ Ошибка: {e}")
+        time.sleep(10)
